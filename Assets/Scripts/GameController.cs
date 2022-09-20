@@ -15,8 +15,13 @@ public class GameController : MonoBehaviour
     public TMP_Text playerCol1Text, playerCol2Text, playerCol3Text, playerFinText;
     public TMP_Text enemyCol1Text, enemyCol2Text, enemyCol3Text, enemyFinText;
     public TMP_Text whoWon, playerScore, enemyScore;
+    public int isAiOn;
     private int playerCol1Sum, playerCol2Sum, playerCol3Sum, playerFinSum;
     private int enemyCol1Sum, enemyCol2Sum, enemyCol3Sum, enemyFinSum;
+    public void Start()
+    {
+        isAiOn = PlayerPrefs.GetInt("isAiOn", 1);
+    }
     public void SetNumber(int buttonNumber, bool isPlayerButton)
     {
         int currentNumber = gameController.GetComponent<NumberGenerator>().currentNumber;
@@ -29,6 +34,11 @@ public class GameController : MonoBehaviour
             DestroyDice(buttonNumber, true);
             UpdateSum();
             CheckGameEnd();
+            if(isAiOn == 1)
+            {
+                int number = gameController.GetComponent<EnemyAI>().ReturnBestPos(enemyValues);
+                SetNumber(number, false);
+            }
         }
         else
         {
@@ -367,6 +377,10 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene("Gameplay");
+    }
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
     public void QuitGame()
     {

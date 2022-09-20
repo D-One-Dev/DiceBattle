@@ -49,8 +49,14 @@ public class MenuController : MonoBehaviour
         ruleText.text = rules[currentRule];
         ruleSprite.GetComponent<Image>().sprite = images[currentRule];
     }
-    public void StartGame()
+    public void StartGameWithAI()
     {
+        PlayerPrefs.SetInt("isAiOn", 1);
+        SceneManager.LoadScene("Gameplay");
+    }
+    public void StartGameWithPlayer()
+    {
+        PlayerPrefs.SetInt("isAiOn", 0);
         SceneManager.LoadScene("Gameplay");
     }
     public void QuitGame()
