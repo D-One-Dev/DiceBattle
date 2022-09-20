@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public TMP_Text enemyCol1Text, enemyCol2Text, enemyCol3Text, enemyFinText;
     public TMP_Text whoWon, playerScore, enemyScore;
     public int isAiOn;
+    public bool isPlayerTurn = true;
     private int playerCol1Sum, playerCol2Sum, playerCol3Sum, playerFinSum;
     private int enemyCol1Sum, enemyCol2Sum, enemyCol3Sum, enemyFinSum;
     public void Start()
@@ -33,11 +34,13 @@ public class GameController : MonoBehaviour
             playerButtons[buttonNumber].GetComponent<Button>().interactable = false;
             DestroyDice(buttonNumber, true);
             UpdateSum();
+            DisableButtons();
             CheckGameEnd();
             if(isAiOn == 1)
             {
                 int number = gameController.GetComponent<EnemyAI>().ReturnBestPos(enemyValues);
                 SetNumber(number, false);
+                DisableButtons();
             }
         }
         else
@@ -47,6 +50,7 @@ public class GameController : MonoBehaviour
             enemyButtons[buttonNumber].GetComponent<Button>().interactable = false;
             DestroyDice(buttonNumber, false);
             UpdateSum();
+            if(isAiOn == 0) DisableButtons();
             CheckGameEnd();
         }
     }
@@ -369,10 +373,47 @@ public class GameController : MonoBehaviour
             curButton.GetComponent<Button>().interactable = false;
         }
         playerScore.text = "Player score: " + playerFinSum.ToString();
-        enemyScore.text = "Enemy socre: " + enemyFinSum.ToString();
+        enemyScore.text = "Enemy score: " + enemyFinSum.ToString();
         if(hasPlayerWon) whoWon.text = "Player won!";
         else whoWon.text = "Enemy won!";
         endScreen.SetActive(true);
+    }
+    public void DisableButtons()
+    {
+        if(isPlayerTurn)
+        {
+            foreach(GameObject curButton in playerButtons)
+            {
+                curButton.GetComponent<Button>().interactable = false;
+            }
+            if(isAiOn == 0)
+            {
+                foreach(GameObject curButton in enemyButtons)
+                {
+                    curButton.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                foreach(GameObject curButton in enemyButtons)
+                {
+                    curButton.GetComponent<Button>().interactable = false;
+                }
+            }
+            isPlayerTurn = false;
+        }
+        else
+        {
+            foreach(GameObject curButton in playerButtons)
+            {
+                curButton.GetComponent<Button>().interactable = true;
+            }
+            foreach(GameObject curButton in enemyButtons)
+            {
+                curButton.GetComponent<Button>().interactable = false;
+            }
+            isPlayerTurn = true;
+        }
     }
     public void RestartGame()
     {
