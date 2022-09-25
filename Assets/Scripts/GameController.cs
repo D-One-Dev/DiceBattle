@@ -372,10 +372,20 @@ public class GameController : MonoBehaviour
         {
             curButton.GetComponent<Button>().interactable = false;
         }
-        playerScore.text = "Player score: " + playerFinSum.ToString();
-        enemyScore.text = "Enemy score: " + enemyFinSum.ToString();
-        if(hasPlayerWon) whoWon.text = "Player won!";
-        else whoWon.text = "Enemy won!";
+        if(PlayerPrefs.GetInt("language", 0) == 0)
+        {
+            playerScore.text = "Player score: " + playerFinSum.ToString();
+            enemyScore.text = "Enemy score: " + enemyFinSum.ToString();
+            if(hasPlayerWon) whoWon.text = "Player won!";
+            else whoWon.text = "Enemy won!";
+        }
+        else if(PlayerPrefs.GetInt("language", 0) == 1)
+        {
+            playerScore.text = "Счёт игрока: " + playerFinSum.ToString();
+            enemyScore.text = "Счёт противника: " + enemyFinSum.ToString();
+            if(hasPlayerWon) whoWon.text = "Игрок победил!";
+            else whoWon.text = "Противник победил!";
+        }
         endScreen.SetActive(true);
     }
     public void DisableButtons()

@@ -7,7 +7,7 @@ public class MenuController : MonoBehaviour
 {
     public GameObject rulesScreen;
     public int currentRule = 0, rulesAmount;
-    public string[] rules;
+    public string[] rulesRus, rulesEng;
     public Sprite[] images;
     public TMP_Text ruleText;
     public GameObject ruleSprite;
@@ -46,7 +46,8 @@ public class MenuController : MonoBehaviour
     }
     public void UpdateRule()
     {
-        ruleText.text = rules[currentRule];
+        if(PlayerPrefs.GetInt("language", 0) == 0) ruleText.text = rulesEng[currentRule];
+        else if (PlayerPrefs.GetInt("language", 0) == 1) ruleText.text = rulesRus[currentRule];
         ruleSprite.GetComponent<Image>().sprite = images[currentRule];
     }
     public void StartGameWithAI()
