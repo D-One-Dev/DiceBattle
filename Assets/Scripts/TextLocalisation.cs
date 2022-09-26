@@ -8,7 +8,7 @@ public class TextLocalisation : MonoBehaviour
     void Start()
     {
         language = PlayerPrefs.GetInt("language", -1);
-        if(language == -1) Debug.LogError("Invalid language number");
+        if(language == -1) Debug.Log("Language number not set");
         else
         {
             if(gameObject.GetComponent<TMP_Text>() == null) Debug.LogError("TMP_Text not found");
